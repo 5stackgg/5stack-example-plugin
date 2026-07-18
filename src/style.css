@@ -1,0 +1,5 @@
+/* Everything this plugin needs: tokens, components, utilities, and the scoped
+   base rules. Deliberately no `@tailwind` directives of your own — plugin.css
+   is the Tailwind entrypoint, and adding `@tailwind base` here would emit
+   global preflight that repaints the panel's chrome. */
+@import "@5stack/ui/plugin.css";

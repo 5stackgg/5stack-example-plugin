@@ -1,0 +1,11 @@
+{
+  "$schema": "https://5stack.gg/schemas/plugin.json",
+  "name": "Hello World",
+  "slug": "hello",
+  "icon": "sparkles",
+  "remoteEntry": "/assets/remoteEntry.js",
+  "scope": "hello",
+  "module": "./App",
+  "requiredRole": null,
+  "deployments": ["example-plugin"]
+}
