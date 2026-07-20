@@ -7,5 +7,6 @@
   "scope": "hello",
   "module": "./App",
   "requiredRole": null,
+  "profileTabLabel": "Hello",
   "deployments": ["example-plugin"]
 }

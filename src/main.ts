@@ -10,6 +10,14 @@ if (import.meta.env.DEV) {
   import("@5stack/ui/standalone.css");
 }
 
+// Standalone there is no host to hand us a `query`, so mirror the real URL into
+// the prop. That makes the embedded modes testable without a panel — try
+// `?embed=1&player=76561197960265728` against `npm run dev`.
+const query = Object.fromEntries(
+  new URLSearchParams(window.location.search).entries(),
+);
+
 createApp(App, {
   user: { steam_id: "76561197960265728", name: "Dev User", role: "administrator" },
+  query,
 }).mount("#app");
