@@ -1,2 +1,6 @@
 node_modules
 dist
+
+# The installer copies *.env.example -> *.env and fills in your site values.
+*.env
+!*.env.example

@@ -1,0 +1,29 @@
+# One ingress, no auth annotations: everything this plugin serves is public
+# static JS. There is no API to gate — the panel supplies the logged-in user to
+# the remote as a prop. A plugin with a backend needs more than this; see the
+# inventory plugin's ingresses, which split /api off to a backend Service.
+#
+# CORS and the no-store header on remoteEntry.js are set by the container's
+# nginx.conf, not here.
+#
+# No `tls:` on purpose — the base IS the plain-HTTP install, for sites whose
+# certificate is terminated in front of the cluster. ../overlays/https adds the
+# tls blocks by patch.
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: example-plugin
+  namespace: 5stack
+spec:
+  ingressClassName: nginx
+  rules:
+    - host: ${EXAMPLE_PLUGIN_DOMAIN}
+      http:
+        paths:
+          - backend:
+              service:
+                name: example-plugin
+                port:
+                  number: 80
+            path: /
+            pathType: Prefix

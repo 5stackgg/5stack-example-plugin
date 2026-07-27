@@ -1,0 +1,39 @@
+# cert-manager install — the plugin gets its own Let's Encrypt certificate.
+#
+# For sites that terminate TLS at the cluster's nginx ingress, i.e. the panel's
+# REVERSE_PROXY=false. ./plugin.sh picks this overlay when it reads that.
+#
+# Requires cert-manager and an Issuer to already exist; the panel install
+# creates both when the site is set up for https.
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+
+resources:
+  - ../../base
+  - certificate.yaml
+
+patches:
+  - path: ingress-tls-patch.yaml
+    target:
+      kind: Ingress
+
+replacements:
+  # The base already points the ingress rule at the host. These are the two
+  # fields only this overlay has: the SNI host on the tls block, and the SAN on
+  # the certificate. Same source value, so a cert can never end up covering a
+  # different host than the one being routed.
+  - source:
+      kind: ConfigMap
+      name: example-plugin-config
+      fieldPath: data.EXAMPLE_PLUGIN_DOMAIN
+    targets:
+      - select:
+          kind: Ingress
+          name: example-plugin
+        fieldPaths:
+          - spec.tls.0.hosts.0
+      - select:
+          kind: Certificate
+          name: example-plugin-ssl
+        fieldPaths:
+          - spec.dnsNames.0

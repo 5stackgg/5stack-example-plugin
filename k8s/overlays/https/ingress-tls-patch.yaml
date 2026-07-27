@@ -1,0 +1,11 @@
+# Adds a tls block to every Ingress in the build.
+#
+# The host is a placeholder that the replacement in kustomization.yaml
+# overwrites. It can't be left empty — kustomize needs the field to exist before
+# it can replace into it.
+- op: add
+  path: /spec/tls
+  value:
+    - hosts:
+        - EXAMPLE_PLUGIN_DOMAIN
+      secretName: example-plugin-ssl

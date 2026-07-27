@@ -1,0 +1,32 @@
+# The whole plugin, HTTP-only. Both overlays build from this.
+#
+# The host is written once, into example-plugin.env, and the replacement below
+# pushes it wherever it's needed — here just the ingress rule; the https overlay
+# adds the tls host and the certificate's SAN from the same value. The panel's
+# ./plugin.sh fills that file in for you from your site's WEB_DOMAIN.
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+
+namespace: 5stack
+
+resources:
+  - deployment.yaml
+  - service.yaml
+  - ingress.yaml
+
+configMapGenerator:
+  - name: example-plugin-config
+    envs:
+      - example-plugin.env
+
+replacements:
+  - source:
+      kind: ConfigMap
+      name: example-plugin-config
+      fieldPath: data.EXAMPLE_PLUGIN_DOMAIN
+    targets:
+      - select:
+          kind: Ingress
+          name: example-plugin
+        fieldPaths:
+          - spec.rules.0.host

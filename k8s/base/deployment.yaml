@@ -1,0 +1,26 @@
+# Frontend only — this plugin has no backend. The container is nginx serving the
+# built Module Federation remote; the panel fetches remoteEntry.js from it.
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: example-plugin
+spec:
+  selector:
+    matchLabels:
+      app: example-plugin
+  strategy:
+    type: Recreate
+  template:
+    metadata:
+      labels:
+        app: example-plugin
+    spec:
+      containers:
+        - name: example-plugin
+          image: ghcr.io/5stackgg/5stack-example-plugin:latest
+          # :latest is republished on every push to main, so the tag alone
+          # doesn't change — always re-pull it on restart.
+          imagePullPolicy: Always
+          ports:
+            - containerPort: 80
+              name: http

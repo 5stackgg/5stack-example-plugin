@@ -1,0 +1,15 @@
+# Plain-HTTP install — no certificate.
+#
+# For sites where TLS is already terminated in front of the cluster: a
+# Cloudflare proxy or tunnel, or any other reverse proxy. That is the panel's
+# REVERSE_PROXY=true, and ./plugin.sh picks this overlay when it reads that out
+# of your .5stack-env.config.
+#
+# Nothing to add — the base is already HTTP-only. It exists so the two installs
+# are symmetric: one directory each, and the installer just points kustomize at
+# whichever one your site needs.
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+
+resources:
+  - ../../base

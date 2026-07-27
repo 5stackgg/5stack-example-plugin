@@ -8,5 +8,17 @@
   "module": "./App",
   "requiredRole": null,
   "profileTabLabel": "Hello",
-  "deployments": ["example-plugin"]
+  "deployments": ["example-plugin"],
+  "install": {
+    "overlays": {
+      "http": "k8s/overlays/http",
+      "https": "k8s/overlays/https"
+    },
+    "certificate": "example-plugin-ssl",
+    "domain": {
+      "prefix": "hello",
+      "var": "EXAMPLE_PLUGIN_DOMAIN",
+      "file": "k8s/base/example-plugin.env"
+    }
+  }
 }

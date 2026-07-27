@@ -1,0 +1,11 @@
+# Compatibility shim for the panel's ./custom.sh, which builds a directory root
+# and so needs a kustomization here. `./plugin.sh <repo>` doesn't use this file
+# — it builds the overlay it picked for your site directly.
+#
+# Defaults to the plain-HTTP install; point it at overlays/https if your panel
+# terminates TLS at the cluster.
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+
+resources:
+  - overlays/http

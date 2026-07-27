@@ -18,9 +18,25 @@ npm run preview   # serve dist/ at :4173 with CORS, for testing in a real panel
 | --- | --- |
 | `src/App.vue` | Your UI. Receives the logged-in `user` and the host `query` as props. |
 | `vite.config.ts` | Exposes `./App` as a Federation remote; declares shared singletons. |
-| `public/5stack-plugin.json` | The manifest the panel auto-detects. |
+| `public/5stack-plugin.json` | The manifest the panel auto-detects, including the `install` block. |
+| `k8s/` | kustomize package — `base/`, plus an `http` and an `https` overlay. |
 | `tailwind.config.js` | Pulls in the `@5stack/ui` preset so you inherit 5stack theming. |
 | `src/main.ts` | Standalone dev entry — **not** used when embedded in the panel. |
+
+## Install it onto a 5stack cluster
+
+From an operator's `5stack-panel` checkout:
+
+```sh
+./plugin.sh 5stackgg/5stack-example-plugin
+```
+
+That's the whole install: it reads the site's own config for the cluster,
+domain, and whether TLS terminates at the cluster, then applies `k8s/`. This
+repo is the minimal working example of the format — frontend only, so its
+manifest declares no database and no node pinning and the installer skips both
+questions. Copy `k8s/` and the `install` block as your starting point, and see
+[docs.5stack.gg/plugins/installing](https://docs.5stack.gg/plugins/installing).
 
 ## Try it against a running panel
 
