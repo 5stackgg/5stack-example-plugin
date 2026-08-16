@@ -1,0 +1,8 @@
+{
+  "hello": {
+    "title": "Hello from a 5stack plugin",
+    "signed_in": "Signed in as {name} ({role})",
+    "not_signed_in": "Not signed in",
+    "toast_hi": "Hello from the plugin — this is the panel's own toast."
+  }
+}
