@@ -1,7 +1,7 @@
 # Builds the Module Federation remote (remoteEntry.js + assets) and serves it as
 # static files. There is no backend — a plugin this small is just a web server
 # handing the panel one JS file.
-FROM node:22-alpine AS build
+FROM node:24-alpine AS build
 WORKDIR /app
 COPY package.json yarn.lock ./
 RUN yarn install --frozen-lockfile
