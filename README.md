@@ -135,3 +135,7 @@ Full guide: **https://docs.5stack.gg/plugins**
 
 For a fuller example with a backend and a database, see the
 [inventory plugin](https://github.com/lukepolo/5stack-inventory-plugin).
+
+## License
+
+[MIT](LICENSE)
