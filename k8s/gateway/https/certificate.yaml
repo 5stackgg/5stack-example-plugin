@@ -1,0 +1,27 @@
+# The plugin's own certificate.
+#
+# Not an entry added to the panel's shared 5stack-ssl cert: the panel rebuilds
+# that one from its own overlay on every ./update.sh, so anything a plugin added
+# there would be silently dropped on the next panel update.
+#
+# The Issuer is the namespaced Issuer the panel install creates when the site
+# terminates TLS itself. If yours is named something else, change issuerRef —
+# nothing else in this overlay depends on the name.
+#
+# ${EXAMPLE_PLUGIN_DOMAIN} is substituted by the replacement in
+# kustomization.yaml, from the same file the ingress host comes from.
+apiVersion: cert-manager.io/v1
+kind: Certificate
+metadata:
+  name: example-plugin-ssl
+  namespace: 5stack
+spec:
+  secretName: example-plugin-ssl
+  # Matches the panel's cert cadence: 90d lifetime, renewed with 10d to spare.
+  duration: 2160h
+  renewBefore: 240h
+  dnsNames:
+    - ${EXAMPLE_PLUGIN_DOMAIN}
+  issuerRef:
+    name: 5stack-issuer
+    kind: Issuer

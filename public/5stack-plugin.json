@@ -14,6 +14,12 @@
       "http": "k8s/overlays/http",
       "https": "k8s/overlays/https"
     },
+    "gateway": {
+      "overlays": {
+        "http": "k8s/gateway/http",
+        "https": "k8s/gateway/https"
+      }
+    },
     "certificate": "example-plugin-ssl",
     "domain": {
       "prefix": "hello",

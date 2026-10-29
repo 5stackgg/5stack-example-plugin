@@ -1,0 +1,49 @@
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+
+# For panels that route through Traefik and the Gateway API and terminate TLS
+# themselves: the plugin's own HTTPS listener on its cert-manager certificate,
+# and plain HTTP on the shared listener redirected to it. That listener is
+# also where cert-manager's HTTP-01 solver answers.
+resources:
+  - ../../base
+  - certificate.yaml
+  - gateway.yaml
+  - httproute.yaml
+  - https-redirect.yaml
+
+patches:
+  - patch: |-
+      $patch: delete
+      apiVersion: networking.k8s.io/v1
+      kind: Ingress
+      metadata:
+        name: example-plugin
+        namespace: 5stack
+
+replacements:
+  - source:
+      kind: ConfigMap
+      name: example-plugin-config
+      fieldPath: data.EXAMPLE_PLUGIN_DOMAIN
+    targets:
+      - select:
+          kind: Certificate
+          name: example-plugin-ssl
+        fieldPaths:
+          - spec.dnsNames.0
+      - select:
+          kind: Gateway
+          name: example-plugin
+        fieldPaths:
+          - spec.listeners.0.hostname
+      - select:
+          kind: HTTPRoute
+          name: example-plugin
+        fieldPaths:
+          - spec.hostnames.0
+      - select:
+          kind: HTTPRoute
+          name: example-plugin-https-redirect
+        fieldPaths:
+          - spec.hostnames.0
