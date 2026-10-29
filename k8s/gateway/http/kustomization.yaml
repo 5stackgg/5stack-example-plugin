@@ -1,0 +1,30 @@
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+
+# For panels that route through Traefik and the Gateway API, behind a reverse
+# proxy: the base without its Ingress, served by an HTTPRoute on the panel's
+# shared Gateway. k8s/overlays stays the install for panels on ingress-nginx.
+resources:
+  - ../../base
+  - httproute.yaml
+
+patches:
+  - patch: |-
+      $patch: delete
+      apiVersion: networking.k8s.io/v1
+      kind: Ingress
+      metadata:
+        name: example-plugin
+        namespace: 5stack
+
+replacements:
+  - source:
+      kind: ConfigMap
+      name: example-plugin-config
+      fieldPath: data.EXAMPLE_PLUGIN_DOMAIN
+    targets:
+      - select:
+          kind: HTTPRoute
+          name: example-plugin
+        fieldPaths:
+          - spec.hostnames.0

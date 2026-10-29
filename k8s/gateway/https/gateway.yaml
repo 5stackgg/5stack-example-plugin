@@ -1,0 +1,19 @@
+apiVersion: gateway.networking.k8s.io/v1
+kind: Gateway
+metadata:
+  name: example-plugin
+  namespace: 5stack
+spec:
+  gatewayClassName: traefik
+  listeners:
+    - name: https
+      hostname: ${EXAMPLE_PLUGIN_DOMAIN}
+      protocol: HTTPS
+      port: 8443
+      tls:
+        mode: Terminate
+        certificateRefs:
+          - name: example-plugin-ssl
+      allowedRoutes:
+        namespaces:
+          from: Same
