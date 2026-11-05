@@ -1,7 +1,7 @@
-# 5stack Plugin — Hello World
+# 5Stack Plugin — Hello World
 
-The smallest complete [5stack plugin](https://docs.5stack.gg/plugins): a Vue
-Module Federation remote that renders **natively inside the 5stack panel** —
+The smallest complete [5Stack plugin](https://docs.5stack.gg/plugins): a Vue
+Module Federation remote that renders **natively inside the 5Stack panel** —
 same sidebar, header, theme, and login. Copy this repo as the starting point for
 your own.
 
@@ -20,10 +20,10 @@ npm run preview   # serve dist/ at :4173 with CORS, for testing in a real panel
 | `vite.config.ts` | Exposes `./App` as a Federation remote; declares shared singletons. |
 | `public/5stack-plugin.json` | The manifest the panel auto-detects, including the `install` block. |
 | `k8s/` | kustomize package — `base/`, plus an `http` and an `https` overlay. |
-| `tailwind.config.js` | Pulls in the `@5stack/ui` preset so you inherit 5stack theming. |
+| `tailwind.config.js` | Pulls in the `@5stack/ui` preset so you inherit 5Stack theming. |
 | `src/main.ts` | Standalone dev entry — **not** used when embedded in the panel. |
 
-## Install it onto a 5stack cluster
+## Install it onto a 5Stack cluster
 
 From an operator's `5stack-panel` checkout:
 
